@@ -17,9 +17,11 @@ class Manager(object):
         self.opts = opts
         self.cmdbar = sconsole.cmdbar.CommandBar(self.opts)
         self.cmdbox = urwid.LineBox(self.cmdbar.grid)
-        self.header = urwid.LineBox(urwid.Text(('banner', 'Salt Console'), align='center'))
+        self.header = urwid.LineBox(
+            urwid.Text(('banner', 'Salt Console'), align='center'))
         self.jobtree = sconsole.jobtree.JobTree(self.opts)
         self.jobbox = urwid.LineBox(self.jobtree.tree)
+        self.log_box = urwid.Text(u'')
         self.body_frame = self.body()
         self.footer = urwid.AttrMap(urwid.Text(FOOTER), 'banner')
         self.view = urwid.Frame(
@@ -28,9 +30,15 @@ class Manager(object):
                 footer=self.footer)
 
     def body(self):
-        return urwid.Frame(self.jobbox, header=self.cmdbox)
+        return urwid.Frame(
+            self.jobbox,
+            header=self.cmdbox,
+            footer=self.log_box)
 
     def unhandled_input(self, key):
+        self.log_box.set_text(repr(key))
+#        if key in ['q', 'Q']:
+#            raise urwid.ExitMainLoop()
         if key in ('meta q', 'meta Q'):
             raise urwid.ExitMainLoop()
         bindings = {'meta t': ['body', 'header', 1],

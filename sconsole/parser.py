@@ -1,8 +1,14 @@
 # Import python libs
+import logging
 import optparse
+import os
 
 # Import salt libs
 import salt.config
+
+
+logger = logging.getLogger()
+
 
 def parse():
     '''
@@ -22,6 +28,8 @@ def parse():
             help='The config dir')
     options, args = parser.parse_args()
     opts = options.__dict__
-    opts.update(salt.config.master_config(opts['config_dir']))
+    master_config = os.path.join(opts['config_dir'], 'master.conf')
+    logger.debug('Reading config file: {0}'.format(master_config))
+    opts.update(salt.config.master_config(master_config))
     opts['color'] = False
     return opts
