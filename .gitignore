@@ -1,3 +1,7 @@
+#
+console_log.txt
+
+# python
 *.py[cod]
 
 # C extensions
@@ -37,3 +41,6 @@ nosetests.xml
 
 # editor temp files
 *.swp
+
+# dev virtualenv
+venv/*

@@ -1,2 +1,6 @@
 salt
 urwid
+singledispatch
+backports_abc
+certifi
+zmq
